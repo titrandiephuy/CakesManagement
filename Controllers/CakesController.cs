@@ -66,57 +66,57 @@ namespace CakesManagement.Controllers
                 return View(model);
             }
 
-        //[HttpGet]
-        //[Route("Product/Edit/{productId}")]
-        //public IActionResult Edit(int productId)
-        //{
-        //    var product = productService.Get(productId);
+        [HttpGet]
+        [Route("Product/Edit/{productId}")]
+        public IActionResult Edit(int productId)
+        {
+           var product = productService.Get(productId);
 
 
-        //    var editProduct = new EditProduct()
-        //    {
-        //        CategoryId = product.CategoryId,
-        //        ProductId = product.ProductId,
-        //        PicturePath = product.Pictures,
-        //        Price = product.Price,
-        //        ProductName = product.ProductName,
-        //        Quantity = product.Quantity
-        //    };
-        //    ViewBag.Category = category;
-        //    return View(editProduct);
-        //}
-        //[HttpPost]
-        //public IActionResult Edit(EditProduct model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var product = productService.Get(model.ProductId);
+           var editProduct = new EditProduct()
+           {
+               CategoryId = product.CategoryId,
+               ProductId = product.ProductId,
+               PicturePath = product.Pictures,
+               Price = product.Price,
+               ProductName = product.ProductName,
+               Quantity = product.Quantity
+           };
+           ViewBag.Category = category;
+           return View(editProduct);
+        }
+        [HttpPost]
+        public IActionResult Edit(EditProduct model)
+        {
+           if (ModelState.IsValid)
+           {
+               var product = productService.Get(model.ProductId);
 
-        //        if (model.Pictures != null)
-        //        {
-        //            var existFilename = product.Pictures.Split("/").Last();
-        //            if (string.Compare(existFilename, "no-picture.jpg") != 0)
-        //            {
-        //                System.IO.File.Delete(Path.Combine(webHostEnvironment.WebRootPath, "images", existFilename));
-        //            }
-        //            var folderPath = Path.Combine(webHostEnvironment.WebRootPath, "images");
-        //            var filename = $"{Guid.NewGuid()}_{model.Pictures.FileName}";
-        //            var filePath = Path.Combine(folderPath, filename);
-        //            using (var fs = new FileStream(filePath, FileMode.Create))
-        //            {
-        //                model.Pictures.CopyTo(fs);
-        //            }
-        //            model.PicturePath = $"~/images/{filename}";
-        //        }
+               if (model.Pictures != null)
+               {
+                   var existFilename = product.Pictures.Split("/").Last();
+                   if (string.Compare(existFilename, "no-picture.jpg") != 0)
+                   {
+                       System.IO.File.Delete(Path.Combine(webHostEnvironment.WebRootPath, "images", existFilename));
+                   }
+                   var folderPath = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                   var filename = $"{Guid.NewGuid()}_{model.Pictures.FileName}";
+                   var filePath = Path.Combine(folderPath, filename);
+                   using (var fs = new FileStream(filePath, FileMode.Create))
+                   {
+                       model.Pictures.CopyTo(fs);
+                   }
+                   model.PicturePath = $"~/images/{filename}";
+               }
 
-        //        if (productService.Edit(model))
-        //        {
-        //            return RedirectToAction("Index", "Product", new { catId = model.CategoryId });
-        //        }
-        //    }
-        //    ViewBag.Category = category;
-        //    return View(model);
-        //}
+               if (productService.Edit(model))
+               {
+                   return RedirectToAction("Index", "Product", new { catId = model.CategoryId });
+               }
+           }
+           ViewBag.Category = category;
+           return View(model);
+        }
 
         [HttpGet]
         [Route("Cakes/Detail/{cakeId}")]
