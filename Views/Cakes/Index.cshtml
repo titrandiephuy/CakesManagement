@@ -1,0 +1,81 @@
+﻿@model IEnumerable<CakesManagement.Entities.Cake>
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>Index</h1>
+<p>
+    <a asp-action="Create">Create New</a>
+    <a class="btn btn-danger text-white" asp-controller="Category" asp-action="Index">
+        Back to Category
+    </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CakeId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CakeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ingredients)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpiredDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ManufactureDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CakeId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CakeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ingredients)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExpiredDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ManufactureDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    <a class="btn btn-success btn-sm text-white" asp-controller="Cakes" asp-action="Edit" asp-route-cakeId="@item.CakeId">
+                        edit
+                    </a>
+                    <a class="btn btn-warning btn-sm text-white" asp-controller="Cakes" asp-action="Detail" asp-route-cakeId="@item.CakeId">
+                        Detail
+                    </a>
+                    @if (item.Status)
+                    {
+                        <a asp-controller="Cakes" asp-action="Remove" asp-route-cakeid="@item.CakeId" class="btn btn-secondary btn-sm">
+                            Da Xoa
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Cakes" asp-action="Remove" asp-route-cakeid="@item.CakeId" class="btn btn-primary btn-sm">
+                            Dang Ban
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
