@@ -30,7 +30,7 @@ namespace CakesManagement.Services
             }
         }
 
-        public bool Edit(Cake model)
+        public bool Edit(EditCake model)
         {
             try
             {
@@ -57,6 +57,11 @@ namespace CakesManagement.Services
             return context.Cakes.Include(p => p.Category).FirstOrDefault(p => p.CakeId == cakeId);
         }
 
+        public Cake GetNotInclude(int cakeId)
+        {
+            return context.Cakes.FirstOrDefault(p => p.CakeId == cakeId);
+        }
+
         public List<Cake> GetProductByCategoryId(int categoryId)
         {
             return context.Cakes.Include(p => p.Category).Where(p => p.CategoryId == categoryId).ToList();
@@ -66,7 +71,7 @@ namespace CakesManagement.Services
         {
             try
             {
-                var cake = Get(cakeId);
+                var cake = GetNotInclude(cakeId);
                 cake.Status = !cake.Status;
                 context.Attach(cake);
                 context.Entry(cake).State = EntityState.Modified;
@@ -77,6 +82,7 @@ namespace CakesManagement.Services
                 return false;
             }
         }
+
 
         //public bool Create(Cake model)
         //{

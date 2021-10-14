@@ -67,51 +67,35 @@ namespace CakesManagement.Controllers
             }
 
         [HttpGet]
-        [Route("Product/Edit/{productId}")]
-        public IActionResult Edit(int productId)
+        [Route("Cakes/Edit/{cakeId}")]
+        public IActionResult Edit(int cakeId)
         {
-           var product = productService.Get(productId);
+           var cake = cakeService.Get(cakeId);
 
 
-           var editProduct = new EditProduct()
+           var editProduct = new EditCake()
            {
-               CategoryId = product.CategoryId,
-               ProductId = product.ProductId,
-               PicturePath = product.Pictures,
-               Price = product.Price,
-               ProductName = product.ProductName,
-               Quantity = product.Quantity
+               CategoryId = cake.CategoryId,
+               CakeName = cake.CakeName,
+               Ingredients = cake.Ingredients,
+               ExpiredDate = cake.ExpiredDate,
+               ManufactureDate = cake.ManufactureDate,
+               Status = cake.Status,
+               Price = cake.Price
            };
            ViewBag.Category = category;
            return View(editProduct);
         }
         [HttpPost]
-        public IActionResult Edit(EditProduct model)
+        public IActionResult Edit(EditCake model)
         {
            if (ModelState.IsValid)
            {
-               var product = productService.Get(model.ProductId);
+               var product = cakeService.Get(model.CakeId);
 
-               if (model.Pictures != null)
+               if (cakeService.Edit(model))
                {
-                   var existFilename = product.Pictures.Split("/").Last();
-                   if (string.Compare(existFilename, "no-picture.jpg") != 0)
-                   {
-                       System.IO.File.Delete(Path.Combine(webHostEnvironment.WebRootPath, "images", existFilename));
-                   }
-                   var folderPath = Path.Combine(webHostEnvironment.WebRootPath, "images");
-                   var filename = $"{Guid.NewGuid()}_{model.Pictures.FileName}";
-                   var filePath = Path.Combine(folderPath, filename);
-                   using (var fs = new FileStream(filePath, FileMode.Create))
-                   {
-                       model.Pictures.CopyTo(fs);
-                   }
-                   model.PicturePath = $"~/images/{filename}";
-               }
-
-               if (productService.Edit(model))
-               {
-                   return RedirectToAction("Index", "Product", new { catId = model.CategoryId });
+                   return RedirectToAction("Index", "Cakes", new { catId = model.CategoryId });
                }
            }
            ViewBag.Category = category;
@@ -120,9 +104,9 @@ namespace CakesManagement.Controllers
 
         [HttpGet]
         [Route("Cakes/Detail/{cakeId}")]
-        public IActionResult Detail(int productId)
+        public IActionResult Detail(int cakeId)
         {
-            var cake = cakeService.Get(productId);
+            var cake = cakeService.Get(cakeId);
             var detailCake = new DetailCake()
             {
                 CakeId = cake.CakeId,
@@ -143,9 +127,9 @@ namespace CakesManagement.Controllers
         {
             if (cakeService.Remove(cakeId))
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Cakes", new { catId = category.CategoryId });
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Cakes", new { cakeId = cakeId });
         }
     }
     

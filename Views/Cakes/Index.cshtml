@@ -57,21 +57,21 @@
                 </td>
                 <td>
                     <a class="btn btn-success btn-sm text-white" asp-controller="Cakes" asp-action="Edit" asp-route-cakeId="@item.CakeId">
-                        edit
+                        Edit
                     </a>
                     <a class="btn btn-warning btn-sm text-white" asp-controller="Cakes" asp-action="Detail" asp-route-cakeId="@item.CakeId">
                         Detail
                     </a>
                     @if (item.Status)
                     {
-                        <a asp-controller="Cakes" asp-action="Remove" asp-route-cakeid="@item.CakeId" class="btn btn-secondary btn-sm">
-                            Da Xoa
+                        <a asp-controller="Cakes" asp-action="Remove" asp-route-cakeId="@item.CakeId" class="btn btn-secondary btn-sm">
+                            Deleted
                         </a>
                     }
                     else
                     {
-                        <a asp-controller="Cakes" asp-action="Remove" asp-route-cakeid="@item.CakeId" class="btn btn-primary btn-sm">
-                            Dang Ban
+                        <a asp-controller="Cakes" asp-action="Remove" asp-route-cakeId="@item.CakeId" class="btn btn-primary btn-sm">
+                            Open
                         </a>
                     }
                 </td>
